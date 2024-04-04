@@ -4,6 +4,17 @@ import os
 
 TOKEN = os.environ['MY_TOKEN']
 
+def check_token(token):
+    headers = {"Authorization": f"Bearer {token}"}
+
+    response = requests.get("https://api.github.com/user", headers=headers)
+
+    if response.status_code == 200:
+        print("Token is valid.")
+        print("Token scopes:", response.json().get('scopes', 'No scopes found'))
+    else:
+        print("Token is invalid.")
+
 def trigger_workflow(repo_owner, repo_name, token):
     url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/dispatches"
     headers = {
@@ -28,5 +39,7 @@ def trigger_workflow(repo_owner, repo_name, token):
 repo_owner = "TheFern2"
 repo_name = "repoA"
 token = TOKEN
+
+check_token(token)
 
 trigger_workflow(repo_owner, repo_name, token)
