@@ -27,6 +27,6 @@ jobs:
 
     - name: Run script
       env:
-          MY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MY_TOKEN: ${{ secrets.MY_SECRET }}
       run: |
         python .github/workflows/scripts/main.py
