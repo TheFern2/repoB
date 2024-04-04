@@ -5,6 +5,7 @@ import os
 TOKEN = os.environ['MY_TOKEN']
 
 def check_token(token):
+    print(f"Token starts with: {token[:5]}")
     headers = {"Authorization": f"Bearer {token}"}
 
     response = requests.get("https://api.github.com/user", headers=headers)
