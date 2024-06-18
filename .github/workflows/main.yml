@@ -1,7 +1,9 @@
 name: Trigger Workflow
 
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   my_job:
