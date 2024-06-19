@@ -17,6 +17,26 @@ def check_token(token):
     else:
         print("Token is invalid.")
 
+def create_release(repo_owner, repo_name, tag, token):
+    url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/releases"
+    headers = {
+        "Accept": "application/vnd.github.v3+json",
+        "Authorization": f"Bearer {token}"
+    }
+    payload = {
+        "tag_name": tag,
+        "name": f"Release {tag}",
+        "body": f"Release notes for {tag}",
+        "draft": False,
+        "prerelease": False
+    }
+    response = requests.post(url, headers=headers, data=json.dumps(payload))
+    
+    if response.status_code == 201:
+        print("Release created successfully!")
+    else:
+        print("Failed to create release:", response.status_code, response.text)
+
 def trigger_workflow(repo_owner, repo_name, token, tag):
     url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/dispatches"
     headers = {
@@ -49,4 +69,8 @@ else:
 
 check_token(token)
 
+# Create a new release with the version tag
+create_release(repo_owner, repo_name, version_tag, token)
+
+# Trigger the workflow with the version tag
 trigger_workflow(repo_owner, repo_name, token, version_tag)
